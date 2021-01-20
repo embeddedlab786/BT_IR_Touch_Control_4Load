@@ -7,21 +7,22 @@ const int RECV_PIN=A5;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
-#define touch1 A0 // Power Button Pin in
-#define touch2 A1 // Light Button Pin in
-#define touch3 A2 // Lamp Button Pin in
-#define touch4 A3 // Socket Button Pin in
-#define touch5 A4 // Fan Button Pin in
-
 #define Relay1 4 // Load1 Pin Out
 #define Relay2 5 // Load2 Pin Out
 #define Relay3 6 // Load3 Pin Out
 #define Relay4 7 // Load4 Pin Out
 
+#define touch1 A0 // Light Button Pin in
+#define touch2 A1 // Lamp Button Pin in 
+#define touch3 A2 // Socket Button Pin in 
+#define touch4 A3 // Fan Button Pin in
+#define touch5 A4 // Power Button Pin in
+
 char bt_data; // variable to receive data from the serial port
 
 int load1, load2, load3, load4, power;
-int Stop=0, timer=0;
+int flag1, flag2, flag3, flag4, flag5;
+int timer=0;
 
 void setup(){
 Serial.begin(9600);
@@ -52,38 +53,47 @@ delay(500);
 
 void loop() {
 
-if(digitalRead(touch1)==1 && Stop==0){Stop=1; 
+if(digitalRead(touch1)==1){
+if(flag1==0){flag1=1; 
 load1 = !load1; 
 EEPROM.write(1, load1); 
 delay(100);
-}
+ }
+}else{flag1=0;}
 
-if(digitalRead(touch2)==1 && Stop==0){Stop=1; 
+if(digitalRead(touch2)==1){ 
+if(flag2==0){flag2=1; 
 load2 = !load2; 
 EEPROM.write(2, load2); 
 delay(100);
-}
+ }
+}else{flag2=0;}
 
-if(digitalRead(touch3)==1 && Stop==0){Stop=1; 
+if(digitalRead(touch3)==1){ 
+if(flag3==0){flag3=1; 
 load3 = !load3; 
 EEPROM.write(3, load3); 
 delay(100);
-}
+ }
+}else{flag3=0;}
 
-if(digitalRead(touch4)==1 && Stop==0){Stop=1; 
+if(digitalRead(touch4)==1){ 
+if(flag4==0){flag4=1; 
 load4 = !load4; 
 EEPROM.write(4, load4); 
 delay(100);
-}
+ }
+}else{flag4=0;}
 
-if(digitalRead(touch5)==1 && Stop==0){Stop=1; 
+if(digitalRead(touch5)==1){ 
+if(flag5==0){flag5=1; 
 power = !power; 
 EEPROM.write(5, power); 
 delay(100);
-}
+ }
+}else{flag5=0;}
 
-if(digitalRead(touch1)==0 && digitalRead(touch2)==0 && digitalRead(touch3)==0 && digitalRead(touch4)==0 && digitalRead(touch5)==0){Stop=0;}
- 
+
 if(irrecv.decode(&results)){
  Serial.println(results.value,HEX);
   

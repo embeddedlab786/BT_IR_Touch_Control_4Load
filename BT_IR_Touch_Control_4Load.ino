@@ -178,7 +178,7 @@ digitalWrite(Relay4, load4);
 }
 
 timer = timer+1;
-if(timer>9){ timer=0;
+if(timer>15){ timer=0;
 BT_Serial.print(power); //send distance to MIT App
 BT_Serial.print(";");
 BT_Serial.print(load1); //send distance to MIT App 
